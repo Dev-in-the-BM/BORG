@@ -1,5 +1,10 @@
-//misc helper functions
-let fs = require("fs");
+import fs from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+// Get the directory name for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * Reads data from a JSON database
@@ -7,18 +12,23 @@ let fs = require("fs");
  * @param {string} file - Database name
  */
 export function getData(callback, file) {
-	fs.readFile(__dirname + "/" + file + ".json", function(err, d) {
-		callback(JSON.parse(d));
-	});
+  fs.readFile(__dirname + "/" + file + ".json", function (err, d) {
+    if (err) {
+      console.error("Error reading file:", err);
+      callback({}); // Return an empty object or handle the error gracefully
+      return;
+    }
+    callback(JSON.parse(d));
+  });
 }
 
 /**
- * Writes data to a JSON database.  === WARNING: DESTRUCTIVE ===
+ * Writes data to a JSON database. === WARNING: DESTRUCTIVE ===
  * @param {object} data - The full database to write back to the JSON file
  * @param {string} file - Database name
  */
 export function saveData(data, file) {
-	fs.writeFileSync(__dirname + "/" + file + ".json", JSON.stringify(data, null, "\t"));
+  fs.writeFileSync(__dirname + "/" + file + ".json", JSON.stringify(data, null, "\t"));
 }
 
 /**
@@ -28,11 +38,11 @@ export function saveData(data, file) {
  * @returns {number} occurences
  */
 export function occurences(arr, search) {
-	let obj = {};
-	for(let i = 0; i < arr.length; i++) {
-		obj[arr[i]] = (obj[arr[i]] || 0) + 1;
-	}
-	return obj[search] || 0;
+  let obj = {};
+  for (let i = 0; i < arr.length; i++) {
+    obj[arr[i]] = (obj[arr[i]] || 0) + 1;
+  }
+  return obj[search] || 0;
 }
 
 /**
@@ -43,18 +53,18 @@ export function occurences(arr, search) {
  * @returns {[string]}
  */
 export function charSplit(string, charmax, charbreak) {
-	let str = string.split(charbreak);
-	let starr = [""];
-	let stin = 0;
-	while(str.length > 0) {
-		if(starr[stin].length + str[0].length + charbreak.length > charmax) {
-			stin++;
-			starr[stin] = "";
-		}
-		starr[stin] += string[0] + charbreak;
-		str.splice(0, 1);
-	}
-	return starr;
+  let str = string.split(charbreak);
+  let starr = [""];
+  let stin = 0;
+  while (str.length > 0) {
+    if (starr[stin].length + str[0].length + charbreak.length > charmax) {
+      stin++;
+      starr[stin] = "";
+    }
+    starr[stin] += string[0] + charbreak;
+    str.splice(0, 1);
+  }
+  return starr;
 }
 
 /**
@@ -63,20 +73,20 @@ export function charSplit(string, charmax, charbreak) {
  * @returns {array} array - The shuffled array
  */
 export function shuffle(array) {
-	let m = array.length,
-		t,
-		i;
-	while(m) {
-		i = Math.floor(Math.random() * m--);
-		t = array[m];
-		array[m] = array[i];
-		array[i] = t;
-	}
-	let a = [];
-	for(let i = 0; i < array.length; i++) {
-		a[i] = array[i];
-	}
-	return a;
+  let m = array.length,
+    t,
+    i;
+  while (m) {
+    i = Math.floor(Math.random() * m--);
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+  let a = [];
+  for (let i = 0; i < array.length; i++) {
+    a[i] = array[i];
+  }
+  return a;
 }
 
 /**
@@ -87,5 +97,5 @@ export function shuffle(array) {
  * @returns {string}
  */
 export function replaceAll(str, search, replacement) {
-	return str.split(search).join(replacement);
+  return str.split(search).join(replacement);
 }
