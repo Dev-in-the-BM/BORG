@@ -1,5 +1,5 @@
 import {app} from "./index.js"
-import {commandsLookup} from "./commands";
+import {commandsLookup} from "./commands.js";
 
 export function receiver(token) {
 	app.post("/" + token, function(req, resp) {
