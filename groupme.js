@@ -1,5 +1,5 @@
 //api wrapper for groupme's bullshit
-import {charSplit} from "./utils";
+import {charSplit} from "./utils.js";
 
 let request = require("request");
 
