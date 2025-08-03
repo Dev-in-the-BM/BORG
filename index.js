@@ -1,8 +1,8 @@
 import {getData} from "./utils.js";
 import {receiver} from "./receiver.js";
 
-let express = require("express");
-let bodyParser = require("body-parser");
+import express from "express";
+import bodyParser from "body-parser";
 export const app = express();
 app.use(bodyParser.json());
 
