@@ -1,5 +1,5 @@
-import {getData} from "./utils";
-import {receiver} from "./receiver";
+import {getData} from "./utils.js";
+import {receiver} from "./receiver.js";
 
 let express = require("express");
 let bodyParser = require("body-parser");
